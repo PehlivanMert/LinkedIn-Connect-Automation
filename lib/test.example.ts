@@ -6,7 +6,8 @@ dotenv.config();
 (async () => {
     const browser = await puppeteer.launch({
         headless: false,
-        executablePath: "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+        /*Edge executablePath: "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",*/
+        /*Brave*/ executablePath: "C:\\Program Files\\BraveSoftware\\Brave-Browser\\Application\\brave.exe",
     });
     const page = await browser.newPage();
 
@@ -36,7 +37,7 @@ dotenv.config();
         console.log("Logged in successfully!");
 
         console.log("Waiting for 2FA...");
-        await page.waitForTimeout(10000); // Wait for 2FA
+        await page.waitForTimeout(20000); // Wait for 2FA
 
         while (profileLinks.size < maxProfiles && currentPage <= maxPages) {
             console.log(`Searching for profiles on page ${currentPage}...`);
