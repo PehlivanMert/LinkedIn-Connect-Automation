@@ -1,0 +1,5 @@
+.idea
+lib/test.ts
+dist/test.*
+node_modules
+*.env
