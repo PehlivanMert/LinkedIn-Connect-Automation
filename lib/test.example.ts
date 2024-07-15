@@ -1,6 +1,7 @@
 import puppeteer from 'puppeteer';
 import fs from 'fs';
 import dotenv from 'dotenv';
+import { random } from 'lodash';
 dotenv.config();
 
 (async () => {
@@ -20,10 +21,14 @@ dotenv.config();
     const profileLinks = new Set<string>();
     const connectionRequestsSent: string[] = [];
     let currentPage = 1;
-    const maxProfiles = 50; // Maximum number of profiles to process
+    const minProfiles = 20;
+    const maxxProfiles = 40;
+    const randomProfiles = Math.floor(Math.random() * (maxxProfiles - minProfiles + 1)) + minProfiles;
+    console.log(`Random number of profiles to collect: ${randomProfiles}`);
+    const maxProfiles = randomProfiles; // Maximum number of profiles to collect
     const maxRequests = 50; // Maximum number of connection requests to send
     const maxPages = 50; // Set maximum number of pages to scrape
-    const searchValue = "team%20lead%20software%20developer%20turkey";
+    const searchValue = "software engineer"; // Search value for LinkedIn
 
     try {
         console.log("Logging into LinkedIn...");
@@ -83,7 +88,8 @@ dotenv.config();
 
             currentPage++;
             console.log(`Navigating to page ${currentPage}...`);
-            await page.waitForTimeout(7000); // Wait for 7 seconds before going to the next page
+            let waitTime = Math.floor(Math.random() * 7000) + 5000; // Random wait time between 5-10 seconds
+            await page.waitForTimeout(waitTime); // Wait for 7-12 seconds before going to the next page
         }
 
         if (profileLinks.size >= maxProfiles) {
@@ -132,8 +138,8 @@ dotenv.config();
 
                     console.log(`Connection request sent to ${profileLink}`);
                     connectionRequestsSent.push(profileLink);
-
-                    await page.waitForTimeout(3000); // Wait before the next request
+                    let waitTime = Math.floor(Math.random() * 3000) + 7000; // Random wait time between 3-10 seconds
+                    await page.waitForTimeout(waitTime); // Wait before the next request
                 } catch (error) {
                     console.log(`Failed to send connection request to ${profileLink}: ${error}`);
                 }
